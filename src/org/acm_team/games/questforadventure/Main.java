@@ -40,6 +40,8 @@ public class Main {
         */
         while(true) {
             // THE MAGIC
+            System.out.println("Whoops, it seems that the magic smoke has been let out of the loop!");
+            break;
         }
 
         // IT HAPPENS UP THERE ^
