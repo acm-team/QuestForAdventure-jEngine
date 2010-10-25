@@ -1,0 +1,31 @@
+PARSING ENGINE:
+- Layer-based
+
+"Engine" Layer:
+Accepts engine-level commands
+{system}: version, help, quit, load/loadgame
+'quit' has a catch to ask player to save if in a save-enabled input loop,
+	else it confirms the player's need to exit notifying them of the inability to save
+	(any way you look at it, 'quit' has a player confirmation for its use)
+{file}: loadsave, save
+There are three savegame types:
+	1. Multi-file
+	2. Single-file
+	3. Disabled
+
+"Game" Layer:
+Accepts command to interact with the game
+
+
+LOGIC FLOW:
+PLAYER INPUT (in loop on Main) ->
+PASS INPUT AS STRING TO INSTANCE OF Command ->
+Command CHECKS CURRENT STATE ->
+PARSES AS {system} (if available in state) ->
+PARSES AS {file} (if available in state) ->
+PARSES 
+
+
+Other Notes:
+- Main input inside a stage's <loop> should be typed as 'loop' in order to enable system and file commands, both of those can be manually enabled or disabled using
+	system_enabled, system_disabled, file_enabled, file_disabled

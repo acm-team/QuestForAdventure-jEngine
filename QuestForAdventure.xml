@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : QuestForAdventure.xml
+    Created on : September 5, 2010, 9:49 PM
+    Author     : fusion2004
+    Description:
+        Purpose of the document follows.
+-->
+
+<game>
+    <name>The True Quest for Adventure</name>
+    <author>fusion2004</author>
+    <extensions>
+        <extend type="special_input" name="player_gender">
+            <option value="male">lad</option>
+            <option value="male">dude</option>
+            <option value="female">lass</option>
+        </extend>
+        <extend type="command" name="look">
+            <option>mira</option>
+        </extend>
+        <extend type="new_command" name="taste">
+            <option>lick</option>
+            <option>taste</option>
+            <option>eat</option>
+        </extend>
+    </extensions>
+    <init module="town1" stage="town_entrance"/>
+    <modules>
+        <module id="town1">
+            <name>Quel'sara</name>
+            <stage id="town_entrance">
+                <properties>
+                    <property type="boolean" id="player_barfed" value="false"/>
+                </properties>
+                <objects>
+                    <object type="" id="butt" name="Butterfly">
+                        <property type="state" id="status" value="alive">
+                            <option>dead</option>
+                            <option>alive</option>
+                        </property>
+                        
+                        <method id="look">
+                            <if condition="butt.status equals 'alive'">
+                                <text>You see a butterfly fluttering about the bushes outside the town.</text>
+                            </if>
+                            <if condition="butt.status equals 'dead'">
+                                <text>The butterfly appears to be dead, smashed and mangled against the town's wall by your own hand.</text>
+                            </if>
+                        </method>
+                        <method id="touch">
+                            <if condition="butt.status equals 'alive'">
+                                <text>You try to touch the butterfly, but only succeed at smashing it against the town's wall.</text>
+                                <set object="butt" property="status" value="dead"/>
+                            </if>
+                            <if condition="butt.status equals 'dead'">
+                                <text>You think about touching the dead butterfly, but ultimately decide it's in your better judgement to leave it alone.</text>
+                            </if>
+                        </method>
+                    </object>
+                </objects>
+                <first>
+                    <text> . . . A new adventurer approaches the town of Quel'sara . . .</text>
+                    <text>As the player comes near, a town greeter appears from somewhere just out of sight and waves the player over.</text>
+                    <text>"Welcome to the town of Quel'sara, friend! ... I'm sorry, I seem to be getting a bit old for this; be you a lad or a lass?"</text>
+                    <input type="any" special="player_gender">
+                        <response type="unknown">
+                            <text>"Eh? Sorry, could 'ya repeat that?"</text>
+                        </response>
+                        <response type="match">
+                            <text>"Ah, I see!"</text>
+                        </response>
+                    </input>
+                    <text>"And what might your name be, traveler?"</text>
+                    <input type="special,file_en" special="player_name">
+                        <response type="match">
+                            <text>"Well met, [player_name]!"</text>
+                        </response>
+                    </input>
+                    <text>"You can go ahead and head into town, then. I'd recommend you head down to the pub if you're here from something particular!"</text>
+                </first>
+                <start>
+                    <text>There are 5 chickens here.</text>
+                </start>
+                <loop>
+                    <input type="loop">
+                        <response type="look">
+                            <text>You're standing near the aged town greeter, along the outskirts of Quel'sara. You can see the town entrance to the north. You seem to be surrounded by forest to the east, west, and south.</text>
+                        </response>
+                        <response type="dir_north">
+                            <link module="town1" stage="town_square"/>
+                        </response>
+                        <response type="dir_east,dir_south,dir_west">
+                            <text>There seems to be a dense forest in that direction.</text>
+                        </response>
+                        <response type="look" match="butterfly">
+                            <execute object="butt" method="look"/>
+                        </response>
+
+                        <response type="ext_taste">
+                            <save enabled="true"/>
+                            <text>What would you like to taste?</text>
+                        </response>
+                        <response type="ext_taste" match="butterfly">
+                            <if condition="butt.status equals 'dead'">
+                                <text>You eat the butterfly, only to find out it doesn't quite agree with your stomach. The town wall is now painted with the previous contents of your stomach.</text>
+                                <set/>
+                            </if>
+                            <if condition="butt.status equals 'alive'">
+                                <text>You try to eat the butterfly, but it flies back to the bushes before you can chomp down your teeth.</text>
+                            </if>
+                        </response>
+                        <response type="look" match="barf,upchuck,throwup,throw-up,stomach contents">
+                            <if condition="stage.player_barfed equals 'true'">
+                                <text>You look at the atrocity you've displayed upon the town wall, and notice the wing of a butterfly ever so slowly crawling downwards.</text>
+                            </if>
+                            <if condition="stage.player_barfed equals 'false'">
+                                <text type="failure"/>
+                            </if>
+                        </response>
+                        <response verb="attack,punch,kick" match="">
+                            <text>blah</text>
+                        </response>
+                    </input>
+                    <!-- OTHER LOGIC HERE -->
+                </loop>
+            </stage>
+        </module>
+    </modules>
+</game>

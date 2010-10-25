@@ -1,0 +1,20 @@
+* Welcome to the QuestForAdventure Engine
+* Created by fusion2004 and acm-team
+* QFA-E v0.01 Alpha
+
+> load /home/user/example-game.xml
+* Loading game ...
+* [Debug] Initializing game with name "The True Quest For Adventure"
+* [Debug] Author: fusion2004
+...
+
+{init stage first/start logic}
+> save
+Game saved!
+
+...
+
+Old man: "What is your name, traveler?"
+> save
+Saving is not allowed here.
+> 
