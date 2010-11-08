@@ -5,18 +5,14 @@
 
 package org.acm_team.games.questforadventure;
 
-import java.util.*;
-import org.acm_team.games.questforadventure.entities.*;
-
 /**
  *
  * @author fusion2004
  */
-public class Command {
-    private Player p;
-
-    public Command() {}
-
-
-
+public interface Output {
+    void add(String s);
+    boolean isEmpty();
+    void flush();
+    void printPrompt();
+    void setPrompt(String prompt);
 }

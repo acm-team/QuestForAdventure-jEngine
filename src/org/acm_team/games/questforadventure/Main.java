@@ -7,7 +7,6 @@ package org.acm_team.games.questforadventure;
 
 import java.io.*;
 import java.util.*;
-import javax.swing.JFileChooser;
 
 /**
  *
@@ -29,22 +28,23 @@ public class Main {
         //FileDialog fail = new FileDialog(null);
 
         // welcome player
-        System.out.println("* Welcome to the QuestForAdventure Engine");
-        System.out.println("* Created by fusion2004 and acm-team");
-        System.out.println("* QFA-E v0.01 Alpha");
-        System.out.println("");
+        
 
-        Command c = new Command();
+        Engine engine = new Engine();
+        String in;
+
        /*
         * MAIN CONTROL LOOP
         */
-        while(true) {
-            // THE MAGIC
-            System.out.println("Whoops, it seems that the magic smoke has been let out of the loop!");
-            break;
+        while(engine.running()) {
+            engine.flushOutput();
+
+            engine.printPrompt();
+            in = br.readLine();
+
+            engine.process(in);
         }
 
-        // IT HAPPENS UP THERE ^
 
         
 
