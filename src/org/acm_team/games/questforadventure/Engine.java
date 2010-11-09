@@ -21,6 +21,10 @@ public class Engine {
 
     private StringTokenizer st;
     private String command;
+    private State state;
+
+
+    public enum State { RUNNING, GAMEINPUTLOOP, SYSTEMINPUTLOOP };
 
     public Engine() {
         running = true;
@@ -41,20 +45,37 @@ public class Engine {
         return running;
     }
 
+    public State state() {
+        return state;
+    }
+
     private void loadGame(String path) {
         g = new Game(path,output);
         // load a game here
     }
 
     private void engineStart() {
-        output.add("* Welcome to the QuestForAdventure Engine");
+        state = State.RUNNING;
+        output.add("* Welcome to the QuestForAdventure-jEngine");
         output.add("* Created by fusion2004 and acm-team");
-        output.add("* QFA-E v0.02 Alpha");
+        output.add("* QFA-jE v0.02 Alpha");
         output.add("");
     }
 
+    private void printError() {
+        output.add("* There was an error processing that command.");
+    }
+    private void printError(String customError) {
+        if(customError == null)
+            printError();
+        else
+            output.add(customError);
+    }
 
     public void process(String in) {
+        if(in==null || in.equalsIgnoreCase(""))
+            return;
+        
         st = new StringTokenizer(in);
         
         if(st.hasMoreTokens())
@@ -73,15 +94,31 @@ public class Engine {
         if(!commandProcessed)
             commandProcessed = this.processCommand(command,arguments);
 
+        if(!commandProcessed)
+            printError();
     }
 
     public boolean processCommand(String command, String[] arguments) {
-        if(command.equalsIgnoreCase("exit")) {
+        if(command.equalsIgnoreCase("exit") || command.equalsIgnoreCase("quit")) {
             output.add("* NOW EXITING THE ENGINE");
             output.flush();
             running = false;
             return true;
+        } else if(command.equalsIgnoreCase("version")) {
+            output.add("* QuestForAdventure-jEngine Alpha v0.02 [Dev]");
+            return true;
+        } else if(command.equalsIgnoreCase("loadgame")) {
+            loadGame("");
+            output.add("* You have loaded the game entitled \""+g.name+"\".");
+            return true;
+        } else if(command.equalsIgnoreCase("game")) {
+            if(g==null)
+                output.add("* A game has not been loaded.");
+            else
+                output.add("* The game entitled \""+g.name+"\" has been loaded.");
+            return true;
         }
+
         return false;
     }
 

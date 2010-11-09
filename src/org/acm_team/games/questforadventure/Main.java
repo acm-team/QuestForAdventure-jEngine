@@ -14,23 +14,16 @@ import java.util.*;
  */
 public class Main {
 
-    public void update() {
-        
-    }
+    public static Engine engine;
 
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) throws IOException {
-        // init
+        // init i/o
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        //Command c = new Command();
-        //FileDialog fail = new FileDialog(null);
-
-        // welcome player
         
-
-        Engine engine = new Engine();
+        Main.engine = new Engine();
         String in;
 
        /*
